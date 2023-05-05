@@ -9,22 +9,41 @@ jobs:
   register-repo-with-mirror:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
+        with:
+          ref: update
 
       - name: Initialize Repository
         run: echo "Hello World!" $GITHUB_REPOSITORY $GITHUB_REPOSITORY_OWNER "${{ github.workflow }}"
         
-      - name: Register Repository With Weekly Mirror Workflow Repository
+      - name: Register Repository With Weekly Mirror Workflow Repository2
         run: |
           git status
-          git config user.name "github-actions[bot]"
+          # git config user.name "github-actions[bot]"
           # https://github.com/actions/checkout/issues/13#issuecomment-724415212
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b '${{ github.event.inputs.repo }}'
+          # git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # git checkout -b '${{ github.event.inputs.repo }}'
+          # echo '${{ github.event.inputs.repo }}' >> repos_to_mirror.txt
+          # git add .
+          # git commit -m '[${{ github.workflow }}] Register repository to be mirrored (${{ github.event.inputs.repo }})'
+          # git push origin ${{ github.event.inputs.repo }}
+          # gh pr create -R $GITHUB_REPOSITORY --fill
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          
+      - name: Register Repository With Weekly Mirror Workflow Repository
+        run: |
           echo '${{ github.event.inputs.repo }}' >> repos_to_mirror.txt
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git add .
-          git commit -m '[${{ github.workflow }}] Register repository to be mirrored (${{ github.event.inputs.repo }})'
-          git push origin ${{ github.event.inputs.repo }}
-          gh pr create -R $GITHUB_REPOSITORY --fill
+          git commit -m "generated"
+          git push
+      
+      - name: Create PR
+        run: |
+          gh pr create -B main -H update \
+            --title 'Register repo ${{ github.event.inputs.repo }} for mirror' \
+            --body '[${{ github.workflow }}] Register repository to be mirrored (${{ github.event.inputs.repo }})'
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
