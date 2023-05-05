@@ -39,11 +39,6 @@ jobs:
           git add .
           git commit -m "generated"
           git push
-      
-      - name: Create PR
-        run: |
           gh pr create -B main -H update \
             --title 'Register repo ${{ github.event.inputs.repo }} for mirror' \
             --body '[${{ github.workflow }}] Register repository to be mirrored (${{ github.event.inputs.repo }})'
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
