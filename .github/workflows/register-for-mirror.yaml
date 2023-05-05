@@ -21,7 +21,7 @@ jobs:
           echo '${{ github.event.inputs.repo }}' >> repos_to_mirror.txt
           git add .
           git commit -m '[${{ github.workflow }}] Register repository to be mirrored (${{ github.event.inputs.repo }})'
-          git push origin main
+          git push origin ${{ github.event.inputs.repo }}
           gh pr create -R $GITHUB_REPOSITORY --fill
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
