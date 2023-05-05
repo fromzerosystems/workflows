@@ -17,6 +17,8 @@ jobs:
       - name: Register Repository With Weekly Mirror Workflow Repository
         run: |
           git status
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b '${{ github.event.inputs.repo }}'
           echo '${{ github.event.inputs.repo }}' >> repos_to_mirror.txt
           git add .
