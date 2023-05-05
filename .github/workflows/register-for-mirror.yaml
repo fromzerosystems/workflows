@@ -22,4 +22,4 @@ jobs:
           git add .
           git commit -m '[${{ github.workflow }}] Register repository to be mirrored (${{ github.event.inputs.repo }})'
           git push origin main
-          gh pr create -R $GITHUB_REPOSITORY
+          gh pr create -R $GITHUB_REPOSITORY --fill
