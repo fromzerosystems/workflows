@@ -46,4 +46,4 @@ jobs:
             --title 'Register repo ${{ github.event.inputs.repo }} for mirror' \
             --body '[${{ github.workflow }}] Register repository to be mirrored (${{ github.event.inputs.repo }})'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.REGISTER_FOR_MIRROR }}
