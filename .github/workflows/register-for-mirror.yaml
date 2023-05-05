@@ -29,7 +29,7 @@ jobs:
           # git push origin ${{ github.event.inputs.repo }}
           # gh pr create -R $GITHUB_REPOSITORY --fill
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Register Repository With Weekly Mirror Workflow Repository
         run: |
@@ -39,6 +39,11 @@ jobs:
           git add .
           git commit -m "generated"
           git push
+      
+      - name: Create PR
+        run: |
           gh pr create -B main -H update \
             --title 'Register repo ${{ github.event.inputs.repo }} for mirror' \
             --body '[${{ github.workflow }}] Register repository to be mirrored (${{ github.event.inputs.repo }})'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
